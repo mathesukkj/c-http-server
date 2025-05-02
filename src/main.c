@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "./http.h"
 #include "./tcp.h"
 
 #define PORT 5000
@@ -21,7 +22,8 @@ int main() {
   ssize_t val_read;
 
   while ((val_read = read_from_socket(new_socket, buf, sizeof(buf))) > 0) {
-    printf("incoming msg: %s", buf);
+    struct http_fields fields;
+    fields = parse_http_message(buf);
   }
 
   close(new_socket);
